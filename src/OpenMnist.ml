@@ -43,3 +43,23 @@ let mk_train_test nb_img =
   close_in ic_train;
   close_in ic_label;
   train_set
+
+open MultiClassPerceptron
+
+let normalize_img_mnist img = (* ok *)
+  {
+    vec = Array.map (fun a -> (float_of_int a) /. 255.) img.pixels;
+    label = img.label
+  }
+
+let print_data img = (* ok *)
+  for i = 0 to 27 do
+    for j = 0 to 27 do
+      let to_print = if img.vec.(i * 28 + j) > 0.5 then "#" else "." in
+      Printf.printf "%s " to_print;
+    done;
+    Printf.printf "\n"
+  done
+
+let normalize_set_mnist set = (* ok *)
+  Array.map normalize_img_mnist set

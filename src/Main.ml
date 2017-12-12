@@ -1,13 +1,14 @@
 open OpenMnist
+open OpenChars74k
 open MultiClassPerceptron
 
 let () =
   Random.init (int_of_float (Unix.gettimeofday ()));
-  let img_set = mk_train_test 6000 in
+  let img_set = mk_train_test 60000 in
   let norm_set = normalize_set_mnist img_set in
   let norm_set = randomize_order norm_set in
   let perc = init_perceptron 10 (28 * 28) in
-  for i = 0 to 10 do
+  for i = 0 to 20 do
     let nb_err = epoch perc norm_set in
     Printf.printf "Error(s) : %d, pas %f\n" nb_err perc.pas;
   done;
