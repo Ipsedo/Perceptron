@@ -8,12 +8,18 @@ let normalize_img_mnist img = (* ok *)
   { vec = Array.map (fun a -> (float_of_int a) /. 255.0) img.OpenMnist.pixels; label = img.label }
 
 let print_data img = (* ok *)
-  for i = 0 to (Array.length img.vec - 1) do
+  (*for i = 0 to (Array.length img.vec - 1) do
     let to_print = if img.vec.(i) > 0.5 then "#" else "." in
     let to_print = to_print ^ (if i mod 28 = 0 && i <> 0 then "\n" else "") in
     Printf.printf "%s " to_print;
-  done;
-  Printf.printf "\n"
+    done;*)
+  for i = 0 to 27 do
+    for j = 0 to 27 do
+      let to_print = if img.vec.(i * 28 + j) > 0.5 then "#" else "." in
+      Printf.printf "%s " to_print;
+    done;
+    Printf.printf "\n"
+  done
 
 let normalize_set_mnist set = (* ok *)
   Array.map normalize_img_mnist set

@@ -2,6 +2,7 @@ open OpenMnist
 open MultiClassPerceptron
 
 let () =
+  Random.init (int_of_float (Unix.gettimeofday ()));
   let img_set = mk_train_test 6000 in
   let norm_set = normalize_set_mnist img_set in
   let norm_set = randomize_order norm_set in

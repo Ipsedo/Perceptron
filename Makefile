@@ -1,6 +1,6 @@
 .PHONY: 	all clean byte native profile debug sanity test
 
-OCB_FLAGS   = -cflag -w -cflag -40 -use-ocamlfind
+OCB_FLAGS   = -cflag -w -cflag -40 -use-ocamlfind -pkg unix
 OCB = ocamlbuild $(OCB_FLAGS)
 
 all: native byte # profile debug
