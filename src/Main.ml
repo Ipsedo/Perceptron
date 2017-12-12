@@ -10,6 +10,8 @@ let () =
     let nb_err = epoch perc norm_set in
     Printf.printf "Error(s) : %d, pas %f\n" nb_err perc.pas;
   done;
+
+  (* On test le modèle *)
   Printf.printf "Test perceptron (y / n) ? ";
   let will_test = ref (read_line () = "y") in
   Printf.printf "\n";

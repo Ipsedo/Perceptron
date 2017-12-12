@@ -25,7 +25,7 @@ let randomize_order set = (* ok *)
 
 let init_perceptron nb size_vec = (* ok *)
   let models = Array.init nb (fun i -> Array.make size_vec 0.0) in
-  { models = models; pas = 0.1 }
+  { models = models; pas = 0.05 }
 
 let prod_scal w x = (* ok *)
   let length = Array.length w in
