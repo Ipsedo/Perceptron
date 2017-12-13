@@ -1,8 +1,7 @@
 open OpenMnist
-open OpenChars74k
 open MultiClassPerceptron
 
-let () =
+let mnist_multiclasse () =
   Random.init (int_of_float (Unix.gettimeofday ()));
   let img_set = mk_train_test 60000 in
   let norm_set = normalize_set_mnist img_set in
@@ -26,3 +25,5 @@ let () =
     will_test := read_line () = "y";
     Printf.printf "\n";
   done
+
+let () = mnist_multiclasse ()
