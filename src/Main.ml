@@ -3,7 +3,7 @@ open MultiClassPerceptron
 
 let train_mnist () =
   Random.init (int_of_float (Unix.gettimeofday ()));
-  let img_set = mk_train_set 10000 in
+  let img_set = mk_train_set 60000 in
   let norm_set = normalize_set_mnist img_set in
   let norm_set = randomize_order norm_set in
   let perc = init_perceptron 10 (28 * 28) in
