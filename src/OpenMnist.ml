@@ -28,21 +28,29 @@ let mk_train_set ic_train ic_label nb_img =
   done;
   set
 
-let mk_train_test nb_img =
-  let ic_train = open_in (res_folder ^ "train-images.idx3-ubyte") in
-  Printf.printf "Train file\n";
+let mk_set nb_img images_file labels_file =
+  let ic_train = open_in (res_folder ^ images_file) in
+  Printf.printf "Image file\n";
   Printf.printf "Magic number : %d\n" (input_binary_int ic_train);
   Printf.printf "Number of image : %d\n" (input_binary_int ic_train);
   Printf.printf "Images are %d * %d\n" (input_binary_int ic_train) (input_binary_int ic_train);
-
-  let ic_label = open_in (res_folder ^ "train-labels.idx1-ubyte") in
+  let ic_label = open_in (res_folder ^ labels_file) in
   Printf.printf "Label file:\n";
   Printf.printf "Magic number : %d\n" (input_binary_int ic_label);
   Printf.printf "Number of label : %d\n" (input_binary_int ic_label);
   let train_set = mk_train_set ic_train ic_label nb_img in
   close_in ic_train;
   close_in ic_label;
+  Printf.printf "\n";
   train_set
+
+let mk_train_set nb_img =
+  Printf.printf "Train set :\n";
+  mk_set nb_img "train-images.idx3-ubyte" "train-labels.idx1-ubyte"
+
+let mk_test_set nb_img =
+  Printf.printf "Test set :\n";
+  mk_set nb_img "t10k-images.idx3-ubyte" "t10k-labels.idx1-ubyte"
 
 open MultiClassPerceptron
 

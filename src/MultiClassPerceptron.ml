@@ -20,7 +20,7 @@ let randomize_order set = (* ok *)
 
 let init_perceptron nb size_vec = (* ok *)
   let models = Array.init nb (fun i -> Array.make size_vec 0.) in
-  { models = models; pas = 0.05; pas_fact = 1e-1 }
+  { models = models; pas = 0.05; pas_fact = 0.8 }
 
 let prod_scal w x = (* ok *)
   let length = Array.length w in
@@ -31,18 +31,14 @@ let prod_scal w x = (* ok *)
   !sum
 
 let arg_max a = (* ok *)
-  let length = Array.length a in
-  let a_max = ref 0 in
-  for i = 0 to length - 1 do
-    if a.(!a_max) < a.(i) then a_max := i;
-  done;
-  !a_max
+  let aux (acc, i) elt =
+    if a.(acc) < a.(i) then (i, i + 1) else (acc, i + 1)
+  in
+  let (res,_ ) = Array.fold_left aux (0, 0) a in
+  res
 
 let th_vec a = (* ok *)
-  let length = Array.length a in
-  for i = 0 to length - 1 do
-    a.(i) <- tanh a.(i);
-  done
+  Array.map tanh a
 
 let update_perceptron perc g data =
   let nb_neuronne = Array.length perc.models in
@@ -64,7 +60,7 @@ let epoch perc data_set =
     in
     if data_set.(i).label <> arg_max a then begin
       incr nb_err;
-      th_vec a;
+      let a = th_vec a in
       update_perceptron perc a data_set.(i);
     end;
   done;
