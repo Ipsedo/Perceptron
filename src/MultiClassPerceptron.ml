@@ -19,8 +19,9 @@ let randomize_order set = (* ok *)
   Array.map snd nd
 
 let init_perceptron nb size_vec = (* ok *)
-  let models = Array.init nb (fun i -> Array.make size_vec 0.) in
-  { models = models; pas = 0.05; pas_fact = 0.8 }
+  { models = Array.make_matrix nb size_vec 0.;
+    pas = 0.05;
+    pas_fact = 0.8 }
 
 let prod_scal w x = (* ok *)
   let length = Array.length w in
@@ -51,21 +52,17 @@ let update_perceptron perc g data =
   done
 
 let epoch perc data_set =
-  let nb_err = ref 0 in
-  let size = Array.length data_set in
-  for i = 0 to size - 1 do
+  let aux acc img =
     let nb_neuronne = Array.length perc.models in
     let a = Array.init nb_neuronne
-        (fun k -> prod_scal perc.models.(k) data_set.(i).vec)
+        (fun k -> prod_scal perc.models.(k) img.vec)
     in
-    if data_set.(i).label <> arg_max a then begin
-      incr nb_err;
-      let a = th_vec a in
-      update_perceptron perc a data_set.(i);
-    end;
-  done;
+    update_perceptron perc (th_vec a) img;
+    if img.label <> arg_max a then acc + 1 else acc
+  in
+  let nb_err = Array.fold_left aux 0 data_set in
   perc.pas <- perc.pas *. perc.pas_fact;
-  !nb_err
+  nb_err
 
 let predict perc data =
   let nb_neuronne = Array.length perc.models in
