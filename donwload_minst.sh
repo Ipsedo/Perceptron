@@ -27,5 +27,4 @@ if ! [ -f "t10k-labels-idx1-ubyte" ]; then
   gzip -d t10k-labels-idx1-ubyte.gz
   rm -f t10k-labels-idx1-ubyte.gz
 fi
-cd ..
-cd ..
+cd ../..
