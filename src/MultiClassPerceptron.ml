@@ -16,9 +16,9 @@ type normalized_data =
 type data_set = normalized_data array
 
 let randomize_order set =
-  let nd = List.map (fun c -> (Random.bits (), c)) set in
+  let nd = List.rev_map (fun c -> (Random.bits (), c)) set in
   let nd = List.sort compare nd in
-  List.map snd nd
+  List.rev_map snd nd
 
 let init_perceptron nb size_vec =
   let init_neur () = list_init (fun _ -> 0.5) size_vec in
@@ -38,7 +38,7 @@ let arg_max a =
   res
 
 let th_vec a =
-  List.map tanh a
+  List.rev_map tanh a
 
 let update_perceptron perc g data =
   let compute_one pas k w_k g_k data =
@@ -54,11 +54,11 @@ let update_perceptron perc g data =
 
 let epoch perc data_set =
   let aux acc img =
-    let a = List.mapi
-        (fun k model_k -> prod_scal model_k img.vec)
+    let a = List.rev_map
+        (fun model_k -> prod_scal model_k img.vec)
         perc.models
     in
-    if img.label <> arg_max a then begin
+    if img.label <> arg_max (List.rev a) then begin
       perc.models <- update_perceptron perc (th_vec a) img;
       acc + 1
     end
@@ -70,8 +70,8 @@ let epoch perc data_set =
   nb_err
 
 let predict perc data =
-  let a = List.map
+  let a = List.rev_map
       (fun model_k -> prod_scal model_k data.vec)
       perc.models
   in
-  arg_max a
+  arg_max (List.rev a)
