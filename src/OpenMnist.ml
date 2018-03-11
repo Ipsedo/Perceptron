@@ -18,11 +18,11 @@ let res_folder = "./res/mnist/"
 
 let mk_image ic_train ic_label =
   let nb_pixel = 28 * 28 in
-    let pixels = Array.make nb_pixel 0 in
-      for i=0 to (nb_pixel - 1) do
-        pixels.(i) <- input_byte ic_train;
-      done;
-    let label = input_byte ic_label in
+  let pixels = Array.make nb_pixel 0 in
+  for i=0 to (nb_pixel - 1) do
+    pixels.(i) <- input_byte ic_train;
+  done;
+  let label = input_byte ic_label in
   { pixels = Array.to_list pixels; label = label }
 
 let mk_train_set ic_train ic_label nb_img =
